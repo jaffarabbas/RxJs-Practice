@@ -1,4 +1,5 @@
 const { Observable } = require('rxjs');
+const { tap } = require('rxjs/internal/operators/tap');
 const { map } = require('rxjs/operators');
 
 const users = {
@@ -36,6 +37,17 @@ const observable = new Observable((subscribe) => {
         return (users.reduce((acc, user) => {
             return acc + user.age
         }, 0)) / users.length
+    }),
+    map((averageAge) => {
+        console.log('4) averageAge', averageAge)
+        if (averageAge > 18) {
+            return 'adult'
+        } else {
+            return 'child'
+        }
+    }),
+    tap((result) => {
+        console.log('5) result', result)
     })
 );
 
